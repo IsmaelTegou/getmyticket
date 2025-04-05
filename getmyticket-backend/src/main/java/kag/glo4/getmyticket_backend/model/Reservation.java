@@ -1,6 +1,8 @@
 package kag.glo4.getmyticket_backend.model;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
@@ -30,4 +33,8 @@ public class Reservation {
     @ManyToOne(optional = true)
     @JoinColumn(name = "client_id",nullable = false)
     private Client client;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "reservation")
+    private Ticket ticket;
 }

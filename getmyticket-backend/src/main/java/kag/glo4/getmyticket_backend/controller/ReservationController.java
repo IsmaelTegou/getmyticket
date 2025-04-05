@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kag.glo4.getmyticket_backend.dto.ReservationDTO;
 import kag.glo4.getmyticket_backend.model.Client;
 import kag.glo4.getmyticket_backend.model.Reservation;
+import kag.glo4.getmyticket_backend.model.Ticket;
 import kag.glo4.getmyticket_backend.service.ClientService;
 import kag.glo4.getmyticket_backend.service.ReservationService;
 
@@ -49,6 +50,11 @@ public class ReservationController {
     @GetMapping("/{id}")
     public ResponseEntity<Reservation> getSpecificReservation(@PathVariable int id){
         return ResponseEntity.ok(reservationService.getReservation(id));
+    }
+
+    @GetMapping("/{id}/ticket")
+    public ResponseEntity<Ticket> getTicketReservation(@PathVariable int id){
+        return ResponseEntity.ok(reservationService.getReservation(id).getTicket());
     }
 
     @DeleteMapping("/{id}")
