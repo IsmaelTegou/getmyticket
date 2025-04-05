@@ -1,7 +1,4 @@
 package kag.glo4.getmyticket_backend.model;
-
-import java.time.format.SignStyle;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
