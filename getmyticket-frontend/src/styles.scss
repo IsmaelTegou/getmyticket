@@ -1,124 +1,141 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+//
+//$color-main: #008BF8;
+//$color-text-on-main: #fff;
+//$color-secondary: #DC0073;
+//$color-shadow: #00000029;
+//$color-background-hover: #fff;
+//$color-text-hover: #008BF8;
+//
+//* {
+//  margin: 0;
+//  padding: 0;
+//  box-sizing: border-box;
+//}
+//
+//main {
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  height: 100vh;
+//  background-color: $color-text-on-main;
+//  font-family: 'Poppins', sans-serif;
+//}
+//
+//.container {
+//  width:350px ;
+//  height:450px ;
+//  background: $color-main;
+//  color: $color-text-on-main;
+//  padding: 2rem;
+//  display: flex;
+//  justify-content: center;
+//  flex-direction: column;
+//  border-radius: 20px;
+//}
+//
+//.headline {
+//  margin-bottom: .5em;
+//  font-size: 2rem;
+//}
+//
+//.box {
+//  margin: .2em 0;
+//}
+//
+//.container .box p {
+//  color: rgba(255, 255, 255, 0.781);
+//}
+//
+//.container .box div {
+//  width: 100%;
+//  height: 40px;
+//  position: relative;
+//  margin: 0.5em 0;
+//
+//}
+//
+//.container .box input {
+//  position: absolute;
+//  width: 100%;
+//  height: 100%;
+//  background: $color-text-on-main;
+//  border: none;
+//  outline: none;
+//  padding-left: .8em;
+//  color: rgb(19, 19,19);
+//  border-radius: 10px;
+//  transition: all 0.4s;
+//}
+//
+//.container .box input:focus::placeholder {
+//  color: #ffffff;
+//}
+//
+//.container .box div::before {
+//  content: '';
+//  position: absolute;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//  width: 102%;
+//  height: 105%;
+//  border-radius: 10px;
+//}
+//
+//.loginBtn {
+//  width: 105%;
+//  height: 40px;
+//  border: none;
+//  margin: 0.5em 0;
+//  border-radius: 10px;
+//  transform: translate(-1%);
+//  background: $color-secondary;
+//  color: $color-text-on-main;
+//  cursor: pointer;
+//  transition: all 0.4s;
+//}
+//
+//.loginBtn:hover {
+//  box-shadow: $color-shadow;
+//  transform: translate(-1% , 5%);
+//  background-color: $color-text-on-main;
+//  color: $color-secondary;
+//}
+//
+//.text {
+//  font-size: .8em;
+//  margin-top: 0.8em;
+//  text-align: center;
+//  color: rgba(255, 255, 255, 0.623);
+//}
+//
+//.text a {
+//  color: rgba(255, 255, 255, 0.911);
+//  text-decoration: none;
+//  position: relative;
+//  left: 3px;
+//}
+//
+//.required-asterisk:after{
+//  content: " *";
+//  color: $color-secondary;
+//}
+//
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-$color-main: #008BF8;
-$color-text-on-main: #fff;
-$color-secondary: #DC0073;
-$color-shadow: #00000029;
-$color-background-hover: #fff;
-$color-text-hover: #008BF8;
+:root {
+  --primary-color: #008BF8;
+  --secondary-color: #DC0073;
+  --text-color: white;
+}
 
-* {
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: $color-text-on-main;
-  font-family: 'Poppins', sans-serif;
-}
-
-.container {
-  width:350px ;
-  height:450px ;
-  background: $color-main;
-  color: $color-text-on-main;
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 20px;
-}
-
-.headline {
-  margin-bottom: .5em;
-  font-size: 2rem;
-}
-
-.box {
-  margin: .2em 0;
-}
-
-.container .box p {
-  color: rgba(255, 255, 255, 0.781);
-}
-
-.container .box div {
-  width: 100%;
-  height: 40px;
-  position: relative;
-  margin: 0.5em 0;
-
-}
-
-.container .box input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: $color-text-on-main;
-  border: none;
-  outline: none;
-  padding-left: .8em;
-  color: rgb(19, 19,19);
-  border-radius: 10px;
-  transition: all 0.4s;
-}
-
-.container .box input:focus::placeholder {
-  color: #ffffff;
-}
-
-.container .box div::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 102%;
-  height: 105%;
-  border-radius: 10px;
-}
-
-.loginBtn {
-  width: 105%;
-  height: 40px;
-  border: none;
-  margin: 0.5em 0;
-  border-radius: 10px;
-  transform: translate(-1%);
-  background: $color-secondary;
-  color: $color-text-on-main;
-  cursor: pointer;
-  transition: all 0.4s;
-}
-
-.loginBtn:hover {
-  box-shadow: $color-shadow;
-  transform: translate(-1% , 5%);
-  background-color: $color-text-on-main;
-  color: $color-secondary;
-}
-
-.text {
-  font-size: .8em;
-  margin-top: 0.8em;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.623);
-}
-
-.text a {
-  color: rgba(255, 255, 255, 0.911);
-  text-decoration: none;
-  position: relative;
-  left: 3px;
-}
-
-.required-asterisk:after{
-  content: " *";
-  color: $color-secondary;
-}
