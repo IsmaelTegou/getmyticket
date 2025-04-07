@@ -1,0 +1,66 @@
+<!--<main>-->
+<!--  <div class="container">-->
+<!--    <p class="headline">login</p>-->
+<!--    <div>-->
+<!--      <div class="box">-->
+<!--        <p class="required-asterisk">Email</p>-->
+<!--        <div><input type="email" [(ngModel)]="loginObj.email" name="email" id="email" placeholder="Enter your Email"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--      <div class="box">-->
+<!--        <p class="required-asterisk">Password</p>-->
+<!--        <div><input type="password" [(ngModel)]="loginObj.password" name="password" id="password" placeholder="Enter your Password"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <button class="loginBtn" (click)="onLogin()">Login</button>-->
+<!--    <p class="text">Don't have an account?<a href="#">Sign up</a></p>-->
+<!--  </div>-->
+
+<!--</main>-->
+
+
+<div class="login-container">
+  <h2>Connexion</h2>
+
+  <form #form="ngForm" (ngSubmit)="login()" novalidate>
+    <label for="email">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      [(ngModel)]="email"
+      #emailRef="ngModel"
+      required
+      email
+    />
+    <div class="error" *ngIf="emailRef.invalid && emailRef.touched">
+      <small *ngIf="emailRef.errors?.['required']">Email requis.</small>
+      <small *ngIf="emailRef.errors?.['email']">Format d'email invalide.</small>
+    </div>
+
+    <label for="password">Mot de passe</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      #passwordRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="passwordRef.invalid && passwordRef.touched">
+      <small>Mot de passe requis.</small>
+    </div>
+
+<!--    <button type="submit" [disabled]="form.invalid">Se connecter</button>-->
+    <button
+      type="submit" [disabled]="form.invalid || isLoading">
+      <span *ngIf="!isLoading">Se connecter</span>
+      <span *ngIf="isLoading" class="spinner">Se connecter</span>
+    </button>
+    <p class="signup-link">
+      Vous n'avez pas de compte ?
+      <a routerLink="/register">Inscrivez-vous ici</a>
+    </p>
+  </form>
+</div>
