@@ -55,8 +55,8 @@
 <!--    <button type="submit" [disabled]="form.invalid">Se connecter</button>-->
     <button
       type="submit" [disabled]="form.invalid || isLoading">
-      <span *ngIf="!isLoading">Se connecter</span>
-      <span *ngIf="isLoading" class="spinner">Se connecter</span>
+      <ng-container *ngIf="!isLoading">Se connecter</ng-container>
+      <span *ngIf="isLoading" class="spinner"></span>
     </button>
     <p class="signup-link">
       Vous n'avez pas de compte ?
