@@ -1,2 +1,9 @@
 @use './code.scss';
 @use './flags/flags';
+
+$color-primary: #005AC8;
+
+.required-asterisk:after{
+    content: " *";
+    color: $color-primary;
+}
