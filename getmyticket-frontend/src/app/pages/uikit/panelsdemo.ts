@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
-import { MenuItem } from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -16,6 +16,14 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { SplitterModule } from 'primeng/splitter';
 import { TabsModule } from 'primeng/tabs';
 import { ToolbarModule } from 'primeng/toolbar';
+import {TableModule} from "primeng/table";
+import {Trajet} from "../../models/trajet";
+import {TrajetService} from "../../services/trajet.service";
+import {DropdownModule} from "primeng/dropdown";
+import {Dialog} from "primeng/dialog";
+import {TrajetSearch} from "../../types/trajetSearch";
+import {Observable, of} from "rxjs";
+import {Tooltip} from "primeng/tooltip";
 
 @Component({
     selector: 'app-panels-demo',
@@ -36,184 +44,156 @@ import { ToolbarModule } from 'primeng/toolbar';
         PanelModule,
         TabsModule,
         IconFieldModule,
-        InputIconModule
+        InputIconModule,
+        TableModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        Dialog,
+        Tooltip
     ],
     template: `
-        <div class="flex flex-col">
-            <div class="card">
-                <div class="font-semibold text-xl mb-4">Toolbar</div>
-                <p-toolbar>
-                    <ng-template #start>
-                        <p-button icon="pi pi-plus" class="mr-2" severity="secondary" text />
-                        <p-button icon="pi pi-print" class="mr-2" severity="secondary" text />
-                        <p-button icon="pi pi-upload" severity="secondary" text />
-                    </ng-template>
 
-                    <ng-template #center>
-                        <p-iconfield>
-                            <p-inputicon>
-                                <i class="pi pi-search"></i>
-                            </p-inputicon>
-                            <input pInputText placeholder="Search" />
-                        </p-iconfield>
-                    </ng-template>
+<!--            <div class="grid">-->
+<!--                <div class="col-12">-->
+<!--                    <h2 class="text-color-primary">Liste des Trajets</h2>-->
+<!--                    <p>Voici la liste des trajets</p>-->
+<!--                    <p-button (onClick)="openAddDialog()" label="Add Trajet" [rounded]="true"></p-button>-->
+<!--                </div>-->
+<!--                <div class="col-12">-->
+<!--                    <div class="flex justify-content-end">-->
+<!--              <span class="p-input-icon-left">-->
+<!--                <i class="pi pi-search"></i>-->
+<!--                <input type="text" [formControl]="searchControl" placeholder="{{trajetSearchTextPlaceholder}}" pInputText />-->
+<!--              </span>-->
+<!--                        <p-button (onClick)="menu.toggle($event)" class="ml-2" icon="pi pi-sliders-h"></p-button>-->
+<!--                        <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12">-->
+<!--                    <p-divider></p-divider>-->
+<!--                </div>-->
+<!--                <ng-container *ngIf="filteredTrajets$ | async as trajets; else loading" >-->
+<!--                    <ng-container *ngIf="trajets.length > 0; else noTrajets">-->
+<!--                        <div *ngFor="let trajet of trajets; trackBy: trackById" class="col-12 xl:col-6 md:col-6">-->
+<!--                            &lt;!&ndash;                            <app-employee-item&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                [employee]="employee"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                (onEdit)="openEditDialog($event)"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                (onDelete)="deleteEmployee($event)"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                (onShow)="openShowDialog($event)"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            ></app-employee-item>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </ng-container>-->
+<!--                </ng-container>-->
 
-                    <ng-template #end><p-splitbutton label="Save" [model]="items"></p-splitbutton></ng-template>
-                </p-toolbar>
-            </div>
+<!--                &lt;!&ndash;Templates Start&ndash;&gt;-->
+<!--                <ng-template #noTrajets>-->
+<!--                    <div class="card col-12 text-center">-->
+<!--                        <div class="text-3xl font-bold text-xl mb-3 title">-->
+<!--                            {{noTrajetFound}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--                <ng-template #loading>-->
+<!--                    <div class="card col-12 text-center">-->
+<!--                        <div class="text-3xl font-bold text-xl mb-3 title">-->
+<!--                            {{loadingMessage}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--                &lt;!&ndash;Templates End&ndash;&gt;-->
 
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="md:w-1/2">
-                    <div class="card">
-                        <div class="font-semibold text-xl mb-4">Accordion</div>
-                        <p-accordion value="0">
-                            <p-accordion-panel value="0">
-                                <p-accordion-header>Header I</p-accordion-header>
-                                <p-accordion-content>
-                                    <p class="m-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                                        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </p-accordion-content>
-                            </p-accordion-panel>
+<!--            </div>-->
 
-                            <p-accordion-panel value="1">
-                                <p-accordion-header>Header II</p-accordion-header>
-                                <p-accordion-content>
-                                    <p class="m-0">
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                                        numquam eius modi.
-                                    </p>
-                                </p-accordion-content>
-                            </p-accordion-panel>
 
-                            <p-accordion-panel value="2">
-                                <p-accordion-header>Header III</p-accordion-header>
-                                <p-accordion-content>
-                                    <p class="m-0">
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                                        numquam eius modi.
-                                    </p>
-                                </p-accordion-content>
-                            </p-accordion-panel>
-                        </p-accordion>
-                    </div>
-                    <div class="card">
-                        <div class="font-semibold text-xl mb-4">Tabs</div>
-                        <p-tabs value="0">
-                            <p-tablist>
-                                <p-tab value="0">Header I</p-tab>
-                                <p-tab value="1">Header II</p-tab>
-                                <p-tab value="2">Header III</p-tab>
-                            </p-tablist>
-                            <p-tabpanels>
-                                <p-tabpanel value="0">
-                                    <p class="m-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                                        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                        mollit anim id est laborum.
-                                    </p>
-                                </p-tabpanel>
-                                <p-tabpanel value="1">
-                                    <p class="m-0">
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                                        numquam eius modi.
-                                    </p>
-                                </p-tabpanel>
-                                <p-tabpanel value="2">
-                                    <p class="m-0">
-                                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,
-                                        similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-                                        cumque nihil impedit quo minus.
-                                    </p>
-                                </p-tabpanel>
-                            </p-tabpanels>
-                        </p-tabs>
-                    </div>
-                </div>
-                <div class="md:w-1/2 mt-6 md:mt-0">
-                    <div class="card">
-                        <div class="font-semibold text-xl mb-4">Panel</div>
-                        <p-panel header="Header" [toggleable]="true">
-                            <p class="m-0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                                id est laborum.
-                            </p>
-                        </p-panel>
-                    </div>
-                    <div class="card">
-                        <div class="font-semibold text-xl mb-4">Fieldset</div>
-                        <p-fieldset legend="Legend" [toggleable]="true">
-                            <p class="m-0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                                id est laborum.
-                            </p>
-                        </p-fieldset>
-                    </div>
-                </div>
-            </div>
 
-            <div class="card mt-8">
-                <div class="font-semibold text-xl mb-4">Divider</div>
-                <div class="flex flex-col md:flex-row">
-                    <div class="w-full md:w-5/12 flex flex-col items-center justify-center gap-3 py-5">
-                        <div class="flex flex-col gap-2">
-                            <label for="username">Username</label>
-                            <input pInputText id="username" type="text" />
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="password">Password</label>
-                            <input pInputText id="password" type="password" />
-                        </div>
-                        <div class="flex">
-                            <p-button label="Login" icon="pi pi-user" class="w-full max-w-[17.35rem] mx-auto"></p-button>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-2/12">
-                        <p-divider layout="vertical" class="!hidden md:!flex"><b>OR</b></p-divider>
-                        <p-divider layout="horizontal" class="!flex md:!hidden" align="center"><b>OR</b></p-divider>
-                    </div>
-                    <div class="w-full md:w-5/12 flex items-center justify-center py-5">
-                        <p-button label="Sign Up" icon="pi pi-user-plus" severity="success" class="w-full" styleClass="w-full max-w-[17.35rem] mx-auto"></p-button>
-                    </div>
-                </div>
-            </div>
+
+
+
+
+<!--            <p-dialog-->
+<!--                [header]="dialogTitle"-->
+<!--                [modal]="true"-->
+<!--                [(visible)] = "isEmployeeDialogOn"-->
+<!--                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"-->
+<!--                [style]="{ width: '50vw' }"-->
+<!--                [maximizable]="true"-->
+<!--            >-->
+
+<!--             <form [formGroup]="trajetForm" (ngSubmit)="onSubmit()">-->
+<!--            <p-divider align="left" type="solid">Informations du trajet</p-divider>-->
+<!--            <div class="grid">-->
+<!--                <div class="col-12 md:col-6">-->
+<!--                    <div class="flex flex-column">-->
+<!--                        <label class="mb-2 required-asterisk" for="name">Nom</label>-->
+<!--                        <input formControlName="name" pInputText id="name">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 md:col-6">-->
+<!--                    <div class="flex flex-column">-->
+<!--                        <label class="mb-2 required-asterisk" for="lastName">Tarif</label>-->
+<!--                        <input formControlName="lastName" pInputText id="lastName">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 md:col-6">-->
+<!--                    <div class="flex flex-column">-->
+<!--                        <label class="mb-2 required-asterisk" for="email">Agence de depart</label>-->
+<!--                        <input formControlName="startAgenceName" pInputText id="startAgenceName">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-12 md:col-6">-->
+<!--                    <div class="flex flex-column">-->
+<!--                        <label class="mb-2 required-asterisk" for="dateOfBirth">Agence d'arrive</label>-->
+<!--                        <input formControlName="endAgenceName" pInputText id="endAgenceName">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <p-divider></p-divider>-->
+<!--            <div class="flex justify-content-end gap-2">-->
+<!--                <p-button *ngIf="dialogOpenState === 'SHOW'" icon="pi pi-pencil" (onClick)="editMode()" label = "active edit mode"></p-button>-->
+<!--                <p-button *ngIf="dialogOpenState !== 'SHOW'" icon="{{isSubmitButtonOn?'pi pi-spin pi-spinner': 'pi pi-send'}}" [disabled]="isSubmitButtonOn" label="Save" type="submit"  />-->
+<!--            </div>-->
+<!--        </form>-->
+<!--            </p-dialog>-->
+
 
             <div class="card">
-                <div class="font-semibold text-xl mb-4">Splitter</div>
-                <p-splitter [style]="{ height: '300px' }" [panelSizes]="[20, 80]" [minSizes]="[10, 0]" styleClass="mb-8">
-                    <ng-template #panel>
-                        <div class="col flex items-center justify-center">Panel 1</div>
-                    </ng-template>
-                    <ng-template #panel>
-                        <p-splitter layout="vertical" [panelSizes]="[50, 50]">
-                            <ng-template #panel>
-                                <div style="flex-grow: 1;" class="flex items-center justify-center">Panel 2</div>
-                            </ng-template>
-                            <ng-template #panel>
-                                <p-splitter [panelSizes]="[20, 80]">
-                                    <ng-template #panel>
-                                        <div class="col flex items-center justify-center">Panel 3</div>
-                                    </ng-template>
-                                    <ng-template #panel>
-                                        <div class="col flex items-center justify-center">Panel 4</div>
-                                    </ng-template>
-                                </p-splitter>
-                            </ng-template>
-                        </p-splitter>
-                    </ng-template>
-                </p-splitter>
-            </div>
+            <p-table [value]="trajets" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template #header>
+                    <tr>
+                        <th><strong>NOM</strong></th>
+                        <th><strong>DEPART</strong></th>
+                        <th><strong>ARRIVEE</strong></th>
+                        <th><strong>TARIF</strong></th>
+                        <th><strong>RESERVER</strong></th>
+                        <th><strong>ACTION</strong></th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-trajet>
+                    <tr>
+                        <td>{{ trajet.name }}</td>
+                        <td>{{ trajet.startAgenceCity }}</td>
+                        <td>{{ trajet.endAgenceCity }}</td>
+                        <td>{{ trajet.price | currency: 'XAF' }}</td>
+                        <td><p-button label="reserver"></p-button></td>
+                        <td>
+                            <i
+                                pTooltip="Edit"
+                                tooltipPosition="top"
+                                class="pi pi-fw pi-pencil cursor-pointer mr-2 text-color-primary"
+                            ></i>
+                            <i
+                                pTooltip="Delete"
+                                tooltipPosition="top"
+                                class="pi pi-fw pi-trash cursor-pointer mr-2 text-red-600"
+                            ></i>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     `
 })
-export class PanelsDemo {
+export class PanelsDemo implements OnInit {
     items: MenuItem[] = [
         {
             label: 'Save',
@@ -232,4 +212,113 @@ export class PanelsDemo {
             icon: 'pi pi-home'
         }
     ];
+
+    trajets!: Trajet[];
+    trajetForm!: FormGroup;
+    protected isSubmitButtonOn:  boolean = false;
+    public dialogOpenState!: 'SHOW' | 'EDIT' | 'ADD';
+    public dialogTitle: string = "Creation d'un trajet";
+    public isEmployeeDialogOn: boolean = false;
+    private trajetSearch: TrajetSearch = "SearchByName";
+    private currentSearchText: string = "";
+    protected filteredTrajets$!: Observable<Trajet[]>;
+    public searchControl: FormControl<string> = new FormControl();
+    public trajetSearchTextPlaceholder: string = "Search by name...";
+    public menuItems: MenuItem[] = [
+        {
+            label: 'Search by Name',
+            command: (): void => {
+                this.trajetSearchTextPlaceholder="Search by Name..."
+                this.trajetSearch = 'SearchByName'
+                this.filterEmployees()
+            }
+        },
+        {
+            label: 'Search by SearchByAgenceName',
+            command: (): void =>{
+                this.trajetSearchTextPlaceholder="Search by SearchByAgenceName..."
+                this.trajetSearch = 'SearchByAgenceName'
+                this.filterEmployees()
+            }
+        },
+        {
+            label: 'Search by SearchByAgenceCity',
+            command: (): void => {
+                this.trajetSearchTextPlaceholder="Search by SearchByAgenceCity..."
+                this.trajetSearch = 'SearchByAgenceCity'
+                this.filterEmployees()
+            }
+        },
+    ];
+
+    public noTrajetFound: string = 'no Trajets found';
+    loadingMessage: string = "Loading...";
+
+    public trackById(index: number, item: Trajet): number | undefined {
+        return item.id;
+    }
+
+    constructor(private trajetService: TrajetService){}
+
+    ngOnInit(): void {
+        this.trajetService.getAllTrajets().subscribe({
+            next: data => {
+                this.trajets = data;
+            }
+        })
+    }
+
+    public onSubmit(){
+        if(!this.trajetForm.valid){
+            this.trajetForm.markAllAsTouched();
+            //this.messageService.add({ severity: 'error', summary: 'Error'});
+        }else{
+            this.isSubmitButtonOn = true;
+            if(this.trajetForm.value.id){
+                this.updateTrajet();
+            }else{
+                this.createTrajet();
+            }
+        }
+    }
+
+    public editMode(): void{
+        this.dialogOpenState = "EDIT";
+        this.dialogTitle = "Updating employee "+this.trajetForm.value.name;
+        this.trajetForm.enable();
+    }
+
+    public updateTrajet() {
+
+    }
+
+    public createTrajet() {
+
+    }
+
+    private filterEmployees(): void {
+        const filtered: Trajet[] = this.trajets?.filter((trajet: Trajet): boolean =>{
+            if(this.trajetSearch === 'SearchByName'){
+                return trajet.name.toLowerCase().includes(this.currentSearchText.toLowerCase())
+            }else if(this.trajetSearch === 'SearchByAgenceName'){
+                return trajet.startAgenceName.toLowerCase().includes(this.currentSearchText.toLowerCase()) ||
+                    trajet.endAgenceName.toLowerCase().includes(this.currentSearchText.toLowerCase())
+            }else if(this.trajetSearch === 'SearchByAgenceCity'){
+                return trajet.startAgenceCity.toLowerCase().includes(this.currentSearchText.toLowerCase()) ||
+                    trajet.endAgenceCity.toLowerCase().includes(this.currentSearchText.toLowerCase())
+            }else{
+                return false
+            }
+
+        });
+        this.filteredTrajets$ = of(filtered);
+    }
+
+    public openAddDialog(): void {
+        this.dialogTitle = "Add new Trajet";
+        this.dialogOpenState = 'ADD';
+        this.trajetForm.enable();
+        this.trajetForm.reset();
+        this.isEmployeeDialogOn = true;
+    }
 }

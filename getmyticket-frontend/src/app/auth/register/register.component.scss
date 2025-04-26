@@ -1,0 +1,95 @@
+.register-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 1rem;
+  background: #008bf8;
+  border-radius: 10px;
+  color: white;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+  }
+
+  //button {
+  //  margin-top: 1.5rem;
+  //  width: 100%;
+  //  background: #dc0073;
+  //  color: white;
+  //  border: none;
+  //  padding: 0.75rem;
+  //  border-radius: 5px;
+  //  cursor: pointer;
+  //}
+
+  button {
+    position: relative;
+    height: 40px;
+    padding: 0 1rem;
+    background-color: #dc0073;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 1.5rem;
+    width: 100%;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid white;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .error {
+    font-size: 0.8rem;
+    color: yellow;
+  }
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+}
+
+.login-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+
+  a {
+    color: #dc0073;
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+<div class="register-container">
+  <h2>Inscription</h2>
+
+  <form
+    #form="ngForm" (ngSubmit)="register()" novalidate >
+    <label for="numCNI">Numéro CNI</label>
+    <input
+      id="numCNI"
+      name="numCNI"
+      type="text"
+      [(ngModel)]="numCNI"
+      #numCNIRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="numCNIRef.invalid && numCNIRef.touched">
+      <small>Numéro CNI requis.</small>
+    </div>
+
+    <label for="firstName">Nom</label>
+    <input
+      id="firstName"
+      name="firstName"
+      type="text"
+      [(ngModel)]="firstName"
+      #firstNameRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="firstNameRef.invalid && firstNameRef.touched">
+      <small>Nom requis.</small>
+    </div>
+
+    <label for="lastName">Prénom</label>
+    <input
+      id="lastName"
+      name="lastName"
+      type="text"
+      [(ngModel)]="lastName"
+      #lastNameRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="lastNameRef.invalid && lastNameRef.touched">
+      <small>Prénom requis.</small>
+    </div>
+
+    <label for="phone">Téléphone</label>
+    <input
+      id="phone"
+      name="phone"
+      type="tel"
+      [(ngModel)]="phone"
+      #phoneRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="phoneRef.invalid && phoneRef.touched">
+      <small>Téléphone requis.</small>
+    </div>
+
+    <label for="email">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      [(ngModel)]="email"
+      #emailRef="ngModel"
+      required
+      email
+    />
+    <div class="error" *ngIf="emailRef.invalid && emailRef.touched">
+      <small *ngIf="emailRef.errors?.['required']">Email requis.</small>
+      <small *ngIf="emailRef.errors?.['email']">Email invalide.</small>
+    </div>
+
+    <label for="password">Mot de passe</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      #passwordRef="ngModel"
+      required
+    />
+    <div class="error" *ngIf="passwordRef.invalid && passwordRef.touched">
+      <small>Mot de passe requis.</small>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || isLoading">
+      <ng-container *ngIf="!isLoading">S'inscrire</ng-container>
+      <span *ngIf="isLoading" class="spinner"></span> </button>
+  </form>
+
+  <p class="login-link">Vous avez déjà un compte ? <a routerLink="/login">Connectez-vous ici</a></p>
+</div>

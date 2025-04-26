@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f9fc;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008bf8;
+  padding: 1rem 2rem;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+
+    a, button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
+      }
+
+      &.active {
+        border-bottom: 2px solid white;
+      }
+    }
+
+    button {
+      padding: 0.4rem 0.8rem;
+      background-color: #dc0073;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: darken(#dc0073, 5%);
+      }
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .links {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 1rem;
+      gap: 0.8rem;
+
+      a, button {
+        width: auto; // Ne prend plus toute la largeur
+        text-align: left;
+        padding: 0.4rem 0.6rem;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.1); // Légère touche de fond
+      }
+
+      a.active {
+        border-bottom: none; // Supprime le soulignement qui s'étend trop
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  .content {
+    padding: 1rem;
+  }
+}

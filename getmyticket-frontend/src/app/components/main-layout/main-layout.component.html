@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="logo">GetMyTicket</div>
+  <div class="links">
+    <a routerLink="/home" routerLinkActive="active">Accueil</a>
+    <button (click)="logout()">Déconnexion</button>
+  </div>
+</nav>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
+
